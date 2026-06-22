@@ -224,7 +224,7 @@ class STLScreenshotGUI(ctk.CTk):
         """Format a translatable template with kwargs."""
         return T[self.lang].get(fmt, fmt).format(**kwargs)
 
-    def _register(self, key, widget, attr='text'):
+    def _i18n_bind(self, key, widget, attr='text'):
         """Register a widget for language switching."""
         if key not in self._i18n_widgets:
             self._i18n_widgets[key] = []
@@ -271,7 +271,7 @@ class STLScreenshotGUI(ctk.CTk):
 
         title_lbl = ctk.CTkLabel(title_row, text="STL Screenshot", font=ctk.CTkFont(size=22, weight="bold"))
         title_lbl.grid(row=0, column=0, sticky="w")
-        self._register('title', title_lbl)
+        self._i18n_bind('title', title_lbl)
 
         self.lang_btn = ctk.CTkButton(title_row, text="🇬🇧" if self.lang == 'uk' else "🇺🇦",
                                       width=40, height=28, fg_color="#444",
@@ -285,22 +285,22 @@ class STLScreenshotGUI(ctk.CTk):
 
         fl = ctk.CTkLabel(files_frame, font=ctk.CTkFont(size=14))
         fl.grid(row=0, column=0, padx=(12, 8), pady=10, sticky="w")
-        self._register('files_header', fl)
+        self._i18n_bind('files_header', fl)
 
         self.files_label = ctk.CTkLabel(files_frame, text_color="gray")
         self.files_label.grid(row=0, column=1, padx=4, pady=10, sticky="w")
-        self._register('files_none', self.files_label)
+        self._i18n_bind('files_none', self.files_label)
 
         btn_frame = ctk.CTkFrame(files_frame, fg_color="transparent")
         btn_frame.grid(row=0, column=2, padx=(4, 12), pady=10, sticky="e")
 
         self.add_btn = ctk.CTkButton(btn_frame, width=120, command=self.add_files)
         self.add_btn.pack(side="left", padx=2)
-        self._register('add_files', self.add_btn)
+        self._i18n_bind('add_files', self.add_btn)
 
         self.clear_btn = ctk.CTkButton(btn_frame, width=90, fg_color="#555", command=self.clear_files)
         self.clear_btn.pack(side="left", padx=2)
-        self._register('clear_files', self.clear_btn)
+        self._i18n_bind('clear_files', self.clear_btn)
 
         # ─── Settings frame
         settings_frame = ctk.CTkFrame(self)
@@ -310,7 +310,7 @@ class STLScreenshotGUI(ctk.CTk):
 
         sl = ctk.CTkLabel(settings_frame, font=ctk.CTkFont(size=14))
         sl.grid(row=0, column=0, padx=12, pady=(8, 2), sticky="w")
-        self._register('settings', sl)
+        self._i18n_bind('settings', sl)
 
         # Column 0 — angles
         angles_box = ctk.CTkFrame(settings_frame, fg_color="transparent")
@@ -318,7 +318,7 @@ class STLScreenshotGUI(ctk.CTk):
 
         al = ctk.CTkLabel(angles_box, font=ctk.CTkFont(size=12))
         al.grid(row=0, column=0, columnspan=4, sticky="w", pady=(0, 4))
-        self._register('angles_label', al)
+        self._i18n_bind('angles_label', al)
 
         self.angle_vars = {}
         r, c = 1, 0
@@ -342,7 +342,7 @@ class STLScreenshotGUI(ctk.CTk):
         eng_row.pack(fill="x", pady=1)
         el = ctk.CTkLabel(eng_row, width=70)
         el.pack(side="left")
-        self._register('engine_label', el)
+        self._i18n_bind('engine_label', el)
 
         self.engine_var = ctk.StringVar(value="trimesh")
         ctk.CTkOptionMenu(eng_row, values=ENGINE_CHOICES, variable=self.engine_var, width=100).pack(side="left", padx=4)
@@ -352,7 +352,7 @@ class STLScreenshotGUI(ctk.CTk):
         color_row.pack(fill="x", pady=1)
         cl = ctk.CTkLabel(color_row, width=70)
         cl.pack(side="left")
-        self._register('color_label', cl)
+        self._i18n_bind('color_label', cl)
 
         self.color_var = ctk.StringVar(value="#3399FF")
         self.color_entry = ctk.CTkEntry(color_row, textvariable=self.color_var, width=90)
@@ -365,7 +365,7 @@ class STLScreenshotGUI(ctk.CTk):
         res_row.pack(fill="x", pady=1)
         rl = ctk.CTkLabel(res_row, width=70)
         rl.pack(side="left")
-        self._register('resolution_label', rl)
+        self._i18n_bind('resolution_label', rl)
 
         self.width_var = ctk.StringVar(value="1920")
         self.height_var = ctk.StringVar(value="1080")
@@ -379,11 +379,11 @@ class STLScreenshotGUI(ctk.CTk):
         self.tight_var = ctk.BooleanVar(value=True)
         tc = ctk.CTkCheckBox(extra_row, variable=self.tight_var)
         tc.pack(side="left", padx=(0, 12))
-        self._register('tight_crop', tc)
+        self._i18n_bind('tight_crop', tc)
 
         sl2 = ctk.CTkLabel(extra_row)
         sl2.pack(side="left")
-        self._register('simplify_label', sl2)
+        self._i18n_bind('simplify_label', sl2)
         self.simplify_var = ctk.StringVar(value="50000")
         ctk.CTkEntry(extra_row, textvariable=self.simplify_var, width=70).pack(side="left", padx=4)
 
@@ -394,15 +394,15 @@ class STLScreenshotGUI(ctk.CTk):
 
         oh = ctk.CTkLabel(out_frame, font=ctk.CTkFont(size=14))
         oh.grid(row=0, column=0, padx=(12, 8), pady=10, sticky="w")
-        self._register('output_header', oh)
+        self._i18n_bind('output_header', oh)
 
         self.out_label = ctk.CTkLabel(out_frame, text_color="gray")
         self.out_label.grid(row=0, column=1, padx=4, pady=10, sticky="w")
-        self._register('output_none', self.out_label)
+        self._i18n_bind('output_none', self.out_label)
 
         self.browse_btn = ctk.CTkButton(out_frame, width=100, command=self.browse_output)
         self.browse_btn.grid(row=0, column=2, padx=(4, 12), pady=10, sticky="e")
-        self._register('browse', self.browse_btn)
+        self._i18n_bind('browse', self.browse_btn)
 
         # ─── Log area
         log_frame = ctk.CTkFrame(self)
@@ -419,12 +419,12 @@ class STLScreenshotGUI(ctk.CTk):
 
         self.open_out_btn = ctk.CTkButton(bottom, fg_color="#555", command=self.open_output, state="disabled")
         self.open_out_btn.pack(side="left", padx=2)
-        self._register('open_folder', self.open_out_btn)
+        self._i18n_bind('open_folder', self.open_out_btn)
 
         self.render_btn = ctk.CTkButton(bottom, fg_color="#2a8", width=160, height=36,
                                         font=ctk.CTkFont(size=15, weight="bold"), command=self.start_render)
         self.render_btn.pack(side="right", padx=2)
-        self._register('render', self.render_btn)
+        self._i18n_bind('render', self.render_btn)
 
         self.progress = ctk.CTkProgressBar(bottom, width=200)
         self.progress.pack(side="right", padx=(0, 12))
