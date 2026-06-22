@@ -1,95 +1,99 @@
 # STL Screenshot
 
-Приймайте STL — отримуйте красиві PNG. Автоматизоване рендеринг 3D моделей у скріншоти з правильним освітленням.
+Drop an STL — get a beautiful PNG. One-click 3D model rendering with proper lighting.
 
 <p align="center">
-  <i>Перетягніть STL → виберіть теку → натисніть «Рендерити» → готово</i>
+  <i>Add files → pick output folder → hit Render → done</i>
 </p>
 
-## ⚡ Швидкий старт
+## ⚡ Quick Start
 
-1. **Завантажте** `STL Screenshot.exe` з [Releases](https://github.com/user/stl-screenshot/releases)
-2. **Запустіть** (Windows 10/11, **нічого встановлювати не треба**)
-3. **Додайте** STL файли, **виберіть** теку, **натисніть** «Рендерити»
+1. **Download** `STL Screenshot.exe` from [Releases](https://github.com/user/stl-screenshot/releases)
+2. **Run it** (Windows 10/11, **no installation required**)
+3. **Add** STL files, **pick** output folder, **click** Render
 
-> 💡 `.exe` — повністю самодостатній. Python, бібліотеки та залежності вже всередині.
-> Єдине, що може знадобитися — [OpenSCAD](https://openscad.org/), якщо хочете використовувати CAD-стиль рендерингу. Якщо OpenSCAD не встановлений — опція просто не з'являється в інтерфейсі, і все працює через вбудований рушій `trimesh`.
+> 💡 The `.exe` is fully self-contained — Python and all libraries are bundled inside.
+> [OpenSCAD](https://openscad.org/) is only needed for CAD-style rendering. If it's not installed, the option simply won't appear in the UI, and everything works via the built-in `trimesh` engine.
 
-## 🎨 Можливості
+## 🎨 Features
 
-- **8 ракурсів**: iso, front, back, left, right, top, bottom, iso2
-- **Два рушії**: 
-  - `trimesh` — вбудований, завжди доступний. Гнучке освітлення (diffuse shading по нормалях), кольори, тісне кадрування
-  - `openscad` — опціональний, з'являється тільки якщо встановлено [OpenSCAD](https://openscad.org/). CAD-стиль рендерингу
-- **Пакетна обробка** — десятки файлів за раз
-- **Спрощення сітки** — для великих моделей (200+ MB)
-- **Зручний GUI** на CustomTkinter
+- **8 view angles**: iso, front, back, left, right, top, bottom, iso2
+- **Two engines**: 
+  - `trimesh` — built-in, always available. Diffuse lighting (face-normal shading), custom colors, tight cropping
+  - `openscad` — optional, only appears if [OpenSCAD](https://openscad.org/) is installed. CAD-style rendering
+- **Batch processing** — dozens of files at once
+- **Mesh simplification** — for large models (200+ MB STL files)
+- **Clean GUI** built with CustomTkinter
 
-## 🖥 Консольний режим
+## 📸 Screenshots
+
+_(add screenshots here)_
+
+## 🖥 CLI Mode
 
 ```bash
 pip install trimesh matplotlib numpy Pillow fast-simplification
 
-# Один файл
+# Single file
 python stl_screenshot.py model.stl
 
-# Пакет із вибраними ракурсами
+# Batch with selected angles
 python stl_screenshot.py "*.stl" --angles iso,front,top -o screenshots/ --tight-crop
 
-# OpenSCAD із кольоровою схемою
+# OpenSCAD with color scheme
 python stl_screenshot.py model.stl --engine openscad --color-scheme Sunset
 
-# Висока роздільність
+# High resolution
 python stl_screenshot.py model.stl --width 3840 --height 2160 --color '#ff6633'
 ```
 
-## 📋 Параметри CLI
+## 📋 CLI Options
 
-| Прапор | Default | Опис |
+| Flag | Default | Description |
 |---|---|---|
-| `--engine` | `trimesh` | `trimesh` або `openscad` |
-| `--angles` | `iso` | Ракурси через кому |
-| `-o` / `--output` | поруч з файлом | Вихідний файл або тека |
-| `--width`, `--height` | `1920`, `1080` | Роздільність |
-| `--color` | `#3388cc` | Колір моделі (hex) для trimesh |
-| `--bg-color` | `white` | Колір фону для trimesh |
-| `--tight-crop` | off | Тісне кадрування |
-| `--simplify` | `100000` | Макс. полігонів (0 = без спрощення) |
-| `--color-scheme` | `Metallic` | Схема OpenSCAD |
-| `-v` | off | Детальний вивід |
+| `--engine` | `trimesh` | `trimesh` or `openscad` |
+| `--angles` | `iso` | Comma-separated view angles |
+| `-o` / `--output` | next to source | Output file or directory |
+| `--width`, `--height` | `1920`, `1080` | Output resolution |
+| `--color` | `#3388cc` | Model color (hex) for trimesh |
+| `--bg-color` | `white` | Background color for trimesh |
+| `--tight-crop` | off | Tighter framing, less empty space |
+| `--simplify` | `100000` | Max polygon count (0 = no simplification) |
+| `--color-scheme` | `Metallic` | OpenSCAD color scheme |
+| `-v` | off | Verbose output |
 
-## 🏗 Збірка .exe
+## 🏗 Building the .exe
 
 ```bash
 pip install pyinstaller customtkinter
 python build_exe.py
 ```
 
-Готовий .exe буде в `dist/STL Screenshot.exe`.
+The built .exe will be at `dist/STL Screenshot.exe`.
 
-## 📂 Структура проекту
+## 📂 Project Structure
 
 ```
 Stl To Img/
-├── stl_screenshot.py       # CLI-скрипт рендерингу
-├── stl_screenshot_gui.py   # GUI-програма
-├── build_exe.py            # Скрипт збірки .exe
-├── STL Screenshot.exe      # Готовий .exe
+├── stl_screenshot.py       # CLI render script
+├── stl_screenshot_gui.py   # GUI app
+├── build_exe.py            # .exe build script
+├── STL Screenshot.exe      # Pre-built standalone .exe
 ├── README.md
 └── .gitignore
 ```
 
-## 📦 Залежності
+## 📦 Dependencies (for CLI / build)
 
 - Python 3.10+
-- `trimesh` — завантаження STL
-- `matplotlib` — рендеринг
-- `numpy` — обчислення
-- `Pillow` — зображення
-- `fast-simplification` — спрощення сітки
+- `trimesh` — STL loading
+- `matplotlib` — rendering with diffuse lighting
+- `numpy` — math
+- `Pillow` — image handling
+- `fast-simplification` — mesh decimation
 - `customtkinter` — GUI
-- `pyinstaller` — збірка .exe (лише для білду)
+- `pyinstaller` — .exe bundling (build only)
 
-## 📄 Ліцензія
+## 📄 License
 
 MIT
