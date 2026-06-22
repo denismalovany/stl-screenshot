@@ -183,7 +183,7 @@ class STLScreenshotGUI(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.lang = 'uk'
+        self.lang = 'en'  # default: English
         self.tr = lambda key: T[self.lang].get(key, key)
 
         self.title(self.tr('title'))
@@ -259,7 +259,7 @@ class STLScreenshotGUI(ctk.CTk):
         """Switch between Ukrainian and English."""
         self.lang = 'en' if self.lang == 'uk' else 'uk'
         self._apply_language()
-        self.lang_btn.configure(text="🇬🇧" if self.lang == 'uk' else "🇺🇦")
+        self.lang_btn.configure(text="EN" if self.lang == 'uk' else "UA")
 
     # ─── UI Builder ─────────────────────────────────────────────
 
@@ -273,8 +273,9 @@ class STLScreenshotGUI(ctk.CTk):
         title_lbl.grid(row=0, column=0, sticky="w")
         self._i18n_bind('title', title_lbl)
 
-        self.lang_btn = ctk.CTkButton(title_row, text="🇬🇧" if self.lang == 'uk' else "🇺🇦",
-                                      width=40, height=28, fg_color="#444",
+        self.lang_btn = ctk.CTkButton(title_row, text="EN" if self.lang == 'uk' else "UA",
+                                      width=50, height=32, fg_color="#444",
+                                      font=ctk.CTkFont(size=14, weight="bold"),
                                       command=self.toggle_language)
         self.lang_btn.grid(row=0, column=1, sticky="e")
 
