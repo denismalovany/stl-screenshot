@@ -16,6 +16,29 @@ from tkinter import filedialog, messagebox
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+# ─── OpenSCAD detection ──────────────────────────────────────────
+def _find_openscad():
+    """Check if OpenSCAD is installed and return its path or None."""
+    import shutil
+    candidates = [
+        r'C:\Program Files\OpenSCAD\openscad.com',
+        r'C:\Program Files\OpenSCAD\openscad.exe',
+        '/usr/bin/openscad',
+        '/usr/local/bin/openscad',
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return shutil.which('openscad') or shutil.which('openscad.com')
+
+OPENSCAD_PATH = _find_openscad()
+HAS_OPENSCAD = OPENSCAD_PATH is not None
+
+# Build engine list based on what's available
+ENGINE_CHOICES = ["trimesh"]
+if HAS_OPENSCAD:
+    ENGINE_CHOICES.append("openscad")
+
 # ─── Render engine import ───────────────────────────────────────
 import numpy as np  # needed early for bundled mode
 
@@ -167,7 +190,7 @@ class STLScreenshotGUI(ctk.CTk):
         eng_row.pack(fill="x", pady=1)
         ctk.CTkLabel(eng_row, text="Рушій:", width=70).pack(side="left")
         self.engine_var = ctk.StringVar(value="trimesh")
-        engine_menu = ctk.CTkOptionMenu(eng_row, values=["trimesh", "openscad"], variable=self.engine_var, width=100)
+        engine_menu = ctk.CTkOptionMenu(eng_row, values=ENGINE_CHOICES, variable=self.engine_var, width=100)
         engine_menu.pack(side="left", padx=4)
 
         # Color
