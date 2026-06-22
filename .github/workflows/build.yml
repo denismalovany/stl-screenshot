@@ -47,6 +47,7 @@ jobs:
           pip install trimesh matplotlib numpy Pillow fast-simplification customtkinter pyinstaller
 
       - name: Build with PyInstaller
+        shell: bash
         run: |
           pyinstaller --onefile --windowed \
             --name "STL Screenshot" \
